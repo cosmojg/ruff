@@ -3219,6 +3219,21 @@ impl AlwaysAutofixableViolation for DictGetWithDefault {
         DictGetWithDefault("var = dict.get(key, \"default\")".to_string())
     }
 }
+
+define_violation!(
+    pub struct UnpackInsteadOfConcatenatingToCollectionLiteral(pub String);
+);
+impl Violation for UnpackInsteadOfConcatenatingToCollectionLiteral {
+    fn message(&self) -> String {
+        let UnpackInsteadOfConcatenatingToCollectionLiteral(expr) = self;
+        format!("Consider `{expr}` instead of concatenation")
+    }
+
+    fn placeholder() -> Self {
+        UnpackInsteadOfConcatenatingToCollectionLiteral("[1, 2, 3, *bar]".to_string())
+    }
+}
+
 // pyupgrade
 
 define_violation!(

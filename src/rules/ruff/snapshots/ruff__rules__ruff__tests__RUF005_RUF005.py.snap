@@ -1,0 +1,73 @@
+---
+source: src/rules/ruff/mod.rs
+expression: diagnostics
+---
+- kind:
+    UnpackInsteadOfConcatenatingToCollectionLiteral: "[1, 2, 3, *foo]"
+  location:
+    row: 2
+    column: 6
+  end_location:
+    row: 2
+    column: 21
+  fix:
+    content: "[1, 2, 3, *foo]"
+    location:
+      row: 2
+      column: 6
+    end_location:
+      row: 2
+      column: 21
+  parent: ~
+- kind:
+    UnpackInsteadOfConcatenatingToCollectionLiteral: "7, 8, 9, *bar"
+  location:
+    row: 3
+    column: 7
+  end_location:
+    row: 3
+    column: 22
+  fix:
+    content: "7, 8, 9, *bar"
+    location:
+      row: 3
+      column: 7
+    end_location:
+      row: 3
+      column: 22
+  parent: ~
+- kind:
+    UnpackInsteadOfConcatenatingToCollectionLiteral: "*quux, 10, 11, 12"
+  location:
+    row: 4
+    column: 7
+  end_location:
+    row: 4
+    column: 26
+  fix:
+    content: "*quux, 10, 11, 12"
+    location:
+      row: 4
+      column: 7
+    end_location:
+      row: 4
+      column: 26
+  parent: ~
+- kind:
+    UnpackInsteadOfConcatenatingToCollectionLiteral: "[*spam, 13, 14, 15]"
+  location:
+    row: 5
+    column: 7
+  end_location:
+    row: 5
+    column: 26
+  fix:
+    content: "[*spam, 13, 14, 15]"
+    location:
+      row: 5
+      column: 7
+    end_location:
+      row: 5
+      column: 26
+  parent: ~
+

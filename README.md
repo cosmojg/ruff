@@ -1174,6 +1174,7 @@ For more, see [flake8-no-pep420](https://pypi.org/project/flake8-no-pep420/2.3.0
 | RUF002 | AmbiguousUnicodeCharacterDocstring | Docstring contains ambiguous unicode character '𝐁' (did you mean 'B'?) | 🛠 |
 | RUF003 | AmbiguousUnicodeCharacterComment | Comment contains ambiguous unicode character '𝐁' (did you mean 'B'?) | 🛠 |
 | RUF004 | KeywordArgumentBeforeStarArgument | Keyword argument `...` must come after starred arguments |  |
+| RUF005 | UnpackInsteadOfConcatenatingToCollectionLiteral | Consider `[1, 2, 3, *bar]` instead of concatenation |  |
 | RUF100 | UnusedNOQA | Unused blanket `noqa` directive | 🛠 |
 
 <!-- End auto-generated sections. -->
