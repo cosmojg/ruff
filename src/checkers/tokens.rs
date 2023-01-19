@@ -4,9 +4,9 @@ use rustpython_parser::lexer::{LexResult, Tok};
 
 use crate::lex::docstring_detection::StateMachine;
 use crate::registry::{Diagnostic, Rule};
-use crate::rules::ruff::rules::Context;
+use crate::rules::ruff::rules::{ambiguous_unicode_character, Context};
 use crate::rules::{
-    eradicate, flake8_commas, flake8_implicit_str_concat, flake8_quotes, pycodestyle, ruff,
+    eradicate, flake8_commas, flake8_implicit_str_concat, flake8_quotes, pycodestyle,
 };
 use crate::settings::{flags, Settings};
 use crate::source_code::Locator;
@@ -57,7 +57,7 @@ pub fn check_tokens(
         // RUF001, RUF002, RUF003
         if enforce_ambiguous_unicode_character {
             if matches!(tok, Tok::String { .. } | Tok::Comment(_)) {
-                diagnostics.extend(ruff::rules::ambiguous_unicode_character(
+                diagnostics.extend(ambiguous_unicode_character(
                     locator,
                     start,
                     end,
