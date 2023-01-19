@@ -577,47 +577,6 @@ impl Rule {
     }
 }
 
-impl DiagnosticKind {
-    /// The summary text for the diagnostic. Typically a truncated form of the
-    /// body text.
-    pub fn summary(&self) -> String {
-        match self {
-            DiagnosticKind::UnaryPrefixIncrement(..) => {
-                "Python does not support the unary prefix increment".to_string()
-            }
-            DiagnosticKind::UnusedLoopControlVariable(violations::UnusedLoopControlVariable(
-                name,
-            )) => {
-                format!("Loop control variable `{name}` not used within the loop body")
-            }
-            DiagnosticKind::NoAssertRaisesException(..) => {
-                "`assertRaises(Exception)` should be considered evil".to_string()
-            }
-            DiagnosticKind::StarArgUnpackingAfterKeywordArg(..) => {
-                "Star-arg unpacking after a keyword argument is strongly discouraged".to_string()
-            }
-
-            // flake8-datetimez
-            DiagnosticKind::CallDatetimeToday(..) => {
-                "The use of `datetime.datetime.today()` is not allowed".to_string()
-            }
-            DiagnosticKind::CallDatetimeUtcnow(..) => {
-                "The use of `datetime.datetime.utcnow()` is not allowed".to_string()
-            }
-            DiagnosticKind::CallDatetimeUtcfromtimestamp(..) => {
-                "The use of `datetime.datetime.utcfromtimestamp()` is not allowed".to_string()
-            }
-            DiagnosticKind::CallDateToday(..) => {
-                "The use of `datetime.date.today()` is not allowed.".to_string()
-            }
-            DiagnosticKind::CallDateFromtimestamp(..) => {
-                "The use of `datetime.date.fromtimestamp()` is not allowed".to_string()
-            }
-            _ => self.body(),
-        }
-    }
-}
-
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Diagnostic {
     pub kind: DiagnosticKind,
@@ -724,19 +683,6 @@ mod tests {
                 Rule::from_code(rule.code()).is_ok(),
                 "{rule:?} could not be round-trip serialized."
             );
-        }
-    }
-
-    #[test]
-    fn fixable_codes() {
-        for rule in Rule::iter() {
-            let kind = rule.kind();
-            if kind.fixable() {
-                assert!(
-                    kind.commit().is_some(),
-                    "{rule:?} is fixable but has no commit message."
-                );
-            }
         }
     }
 }
