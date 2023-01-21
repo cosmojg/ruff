@@ -11,17 +11,21 @@ pub struct Locator<'a> {
 }
 
 pub fn compute_offsets(contents: &str) -> Vec<Vec<usize>> {
-    let mut offsets = Vec::with_capacity(str_indices::lines_crlf::count_breaks(contents));
-    let mut current_row = Vec::with_capacity(88);
+    let mut offsets = Vec::with_capacity(48);
+    let mut current_row = Vec::with_capacity(48);
     let mut current_byte_offset = 0;
+    let mut previous_char = '\0';
     for char in contents.chars() {
         current_row.push(current_byte_offset);
-        // This doesn't properly handle CRLF line endings.
         if char == '\n' {
+            if previous_char == '\r' {
+                current_row.pop();
+            }
             offsets.push(current_row);
-            current_row = Vec::with_capacity(88);
+            current_row = Vec::with_capacity(48);
         }
         current_byte_offset += char.len_utf8();
+        previous_char = char;
     }
     offsets.push(current_row);
     offsets
